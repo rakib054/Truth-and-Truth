@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enter Your Name</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="name-entry">
+        <h1>Welcome to Truth and Truth Game</h1>
+        <form id="nameForm" onsubmit="saveName(event)">
+            <label for="username">Enter Your Name:</label>
+            <input type="text" id="username" required placeholder="Your name...">
+            <button type="submit">Join the Game</button>
+        </form>
+    </div>
+
+    <script>
+        // Save the participant's name and redirect to the main game
+        function saveName(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value;
+            if (username.trim()) {
+                localStorage.setItem('participantName', username); // Save name in localStorage
+                window.location.href = 'index.html'; // Redirect to the game page
+            }
+        }
+    </script>
+</body>
+</html>

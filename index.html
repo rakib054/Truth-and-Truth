@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truth and Truth Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body onload="addCurrentParticipant()">
+    <!-- Header section for Question and Answer -->
+    <header class="game-header">
+        <div class="question-section">
+            <h2>Question from <span id="questioner-name">Questioner</span>:</h2>
+            <textarea id="question" placeholder="Ask your question..." readonly></textarea>
+        </div>
+        <div class="answer-section">
+            <h2>Answer from <span id="prey-name">Prey</span>:</h2>
+            <textarea id="answer" placeholder="Answer goes here..."></textarea>
+            <button type="button" onclick="submitAnswer()">Submit Answer</button>
+        </div>
+    </header>
+
+    <!-- Spinner Section -->
+    <section class="spinner-section">
+        <button type="button" onclick="spin()">Spin to Choose Participants</button>
+        <div id="spinner-result"></div>
+    </section>
+
+    <!-- Chat Section for all participants -->
+    <section class="chat-section">
+        <div class="chat-box">
+            <div class="chat-messages" id="chat-messages">
+                <!-- Chat messages will appear here -->
+            </div>
+            <div class="chat-input">
+                <input type="text" id="chat-message" placeholder="Type a message...">
+                <button type="button" onclick="sendMessage()">Send</button>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Add Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.1.3/firebase-auth.js"></script>
+
+    <!-- My own script file -->
+    <script src="script.js"></script>
+
+</body>
+</html>
