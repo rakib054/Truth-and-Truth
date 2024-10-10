@@ -17,7 +17,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const db = firebase.firestore();
 
 // Add the current participant (from localStorage) to the list and Firebase
 function addCurrentParticipant() {
@@ -31,6 +31,8 @@ function addCurrentParticipant() {
         }).catch((error) => {
             console.error("Error adding participant: ", error);
         });
+    } else {
+        alert("You must set your name first to join the game.");
     }
 }
 
@@ -59,9 +61,9 @@ function spin() {
     prey = getRandomParticipant();
 
     // Update the game state in Firebase with both questioner and prey
-    db.collection('game').doc('state').set({ 
-        questioner: questioner, 
-        prey: prey 
+    db.collection('game').doc('state').set({
+        questioner: questioner,
+        prey: prey
     }).then(() => {
         document.getElementById('questioner-name').innerText = questioner;
         document.getElementById('prey-name').innerText = prey;
@@ -114,13 +116,20 @@ function submitAnswer() {
 // Send a message in the chat
 function sendMessage() {
     const message = document.getElementById('chat-message').value;
+    const participantName = localStorage.getItem('participantName');
+
     if (message === "") {
         alert("Please enter a message!");
         return;
     }
 
+    if (!participantName) {
+        alert("You need to enter your name before sending a message!");
+        return;
+    }
+
     db.collection('chat').add({
-        sender: localStorage.getItem('participantName'),
+        sender: participantName,
         message: message,
         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
     }).then(() => {
@@ -142,4 +151,6 @@ db.collection('chat').orderBy('timestamp').onSnapshot((snapshot) => {
         messageDiv.innerText = `${messageData.sender}: ${messageData.message}`;
         chatBox.appendChild(messageDiv);
     });
+
+    chatBox.scrollTop = chatBox.scrollHeight; // Scroll to the latest message
 });
